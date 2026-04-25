@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熊明熙 ❤️ 臧啸东</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* 浪漫的粉色渐变背景 */
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            font-family: 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            z-index: 10;
+            /* 半透明磨砂玻璃质感卡片 */
+            background: rgba(255, 255, 255, 0.4);
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(255, 105, 135, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            color: #ff4757;
+            font-size: 2.5rem;
+            margin: 0 0 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        /* 中间爱心的跳动动画 */
+        .heart {
+            display: inline-block;
+            animation: heartbeat 1.5s infinite;
+        }
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.3); }
+            60% { transform: scale(1); }
+        }
+        
+        /* 计时器文字样式 */
+        .timer-box {
+            color: #d63031;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .timer-number {
+            font-size: 1.5rem;
+            color: #ff4757;
+            display: inline-block;
+            min-width: 30px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 2px 8px;
+            border-radius: 8px;
+            margin: 0 4px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 满屏飘落的爱心 */
+        .floating-heart {
+            position: absolute;
+            color: rgba(255, 71, 87, 0.6);
+            font-size: 24px;
+            animation: floatUp 4s linear infinite;
+            z-index: 1;
+            user-select: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>熊明熙 <span class="heart">❤️</span> 臧啸东</h1>
+        
+        <div class="timer-box">
+            我们已经相爱了<br><br>
+            <span class="timer-number" id="days">0</span> 天 
+            <span class="timer-number" id="hours">0</span> 小时 
+            <span class="timer-number" id="minutes">0</span> 分钟 
+            <span class="timer-number" id="seconds">0</span> 秒
+        </div>
+    </div>
+
+    <script>
+        // ================= 核心设置 =================
+        // 请在这里填入你们确立关系的那一天的日期！
+        // 格式必须是 "YYYY/MM/DD 00:00:00" (用斜杠兼容性最好)
+        // 往前推103天，大概是 2024年的某一天，请改成你们真实的纪念日：
+        const startDateString = "2026/01/12 00:00:00"; 
+        // ===========================================
+
+        const startDate = new Date(startDateString).getTime();
+
+        function updateTimer() {
+            const now = new Date().getTime();
+            // 计算时间差（毫秒）
+            const diff = now - startDate;
+
+            // 如果当前时间还没到设定的纪念日
+            if (diff < 0) return;
+
+            // 计算天、时、分、秒
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // 更新到网页上，不足两位的数字前面补个0 (比如 09秒)
+            document.getElementById("days").innerText = days;
+            document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+        }
+
+        // 马上更新一次，然后每隔1秒钟（1000毫秒）自动跳动一次
+        updateTimer();
+        setInterval(updateTimer, 1000);
+
+        // 生成满屏飘浮爱心的脚本
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
